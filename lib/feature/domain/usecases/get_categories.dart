@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:vox_app/core/error/failures.dart';
 import 'package:vox_app/core/usecase/usecase.dart';
-import 'package:vox_app/feature/domain/entities/category.dart';
+import 'package:vox_app/feature/domain/entities/category_entity.dart';
 import 'package:vox_app/feature/domain/repository/todo_repository.dart';
 
 class GetCategories implements UseCase<List<CategoryEntity>, EmptyParams> {

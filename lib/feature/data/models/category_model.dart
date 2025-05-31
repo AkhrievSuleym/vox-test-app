@@ -1,4 +1,4 @@
-import 'package:vox_app/feature/domain/entities/category.dart';
+import 'package:vox_app/feature/domain/entities/category_entity.dart';
 
 class CategoryModel extends CategoryEntity {
   CategoryModel({required super.id, required super.name});

@@ -1,4 +1,4 @@
-import 'package:vox_app/feature/domain/entities/todo.dart';
+import 'package:vox_app/feature/domain/entities/todo_entity.dart';
 
 class TodoModel extends TodoEntity {
   TodoModel({
@@ -6,7 +6,7 @@ class TodoModel extends TodoEntity {
     required super.title,
     required super.description,
     required super.categoryId,
-    super.completed,
+    bool completed = false,
   });
 
   Map<String, dynamic> toJson() {
