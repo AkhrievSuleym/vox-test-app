@@ -1,8 +1,8 @@
-class Category {
+class CategoryEntity {
   final int id;
   final String name;
 
-  Category({
+  CategoryEntity({
     required this.id,
     required this.name,
   });

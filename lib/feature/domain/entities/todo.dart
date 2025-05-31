@@ -1,11 +1,11 @@
-class Todo {
+class TodoEntity {
   final int? id;
   final String title;
   final String descrition;
   final int categoryId;
   final bool completed;
 
-  Todo({
+  TodoEntity({
     this.id,
     required this.title,
     required this.descrition,
