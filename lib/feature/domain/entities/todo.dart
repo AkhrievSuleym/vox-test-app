@@ -1,14 +1,14 @@
 class TodoEntity {
   final int? id;
   final String title;
-  final String descrition;
+  final String description;
   final int categoryId;
   final bool completed;
 
   TodoEntity({
     this.id,
     required this.title,
-    required this.descrition,
+    required this.description,
     required this.categoryId,
     this.completed = false,
   });
