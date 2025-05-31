@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:vox_app/core/error/failures.dart';
 import 'package:vox_app/core/usecase/usecase.dart';
 import 'package:vox_app/feature/domain/entities/todo_entity.dart';
@@ -15,8 +16,11 @@ class CreateTodo implements UseCase<TodoEntity, TodoParams> {
   }
 }
 
-class TodoParams {
+class TodoParams extends Equatable {
   final TodoEntity todo;
 
-  TodoParams({required this.todo});
+  const TodoParams({required this.todo});
+
+  @override
+  List<Object?> get props => [todo];
 }

@@ -1,4 +1,4 @@
-import 'package:fpdart/fpdart.dart';
+import 'package:dartz/dartz.dart';
 import 'package:vox_app/core/error/failures.dart';
 
 abstract interface class UseCase<Type, Params> {
