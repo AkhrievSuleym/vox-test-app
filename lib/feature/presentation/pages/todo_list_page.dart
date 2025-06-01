@@ -33,7 +33,7 @@ class TodoListScreen extends ConsumerWidget {
                 ref.read(selectedCategoryProvider.notifier).state = value;
               },
             ),
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const LoadingIcon(),
             error: (e, _) => Text('Error: $e'),
           ),
           Expanded(
