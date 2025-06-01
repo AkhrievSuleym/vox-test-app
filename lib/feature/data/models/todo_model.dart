@@ -21,10 +21,14 @@ class TodoModel extends TodoEntity {
 
   factory TodoModel.fromJson(Map<String, dynamic> json) {
     return TodoModel(
-      id: json['id'],
+      id: json['id'] is String
+          ? int.tryParse(json['id'].toString())
+          : json['id'],
       title: json['title'],
       description: json['description'] ?? '',
-      categoryId: json['categoryId'] ?? 1,
+      categoryId: json['categoryId'] is String
+          ? int.parse(json['categoryId'].toString())
+          : (json['categoryId'] as int? ?? 1),
       completed: json['completed'] ?? false,
     );
   }

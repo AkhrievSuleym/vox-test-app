@@ -40,7 +40,10 @@ final createTodoProvider =
   final usecase = CreateTodo(ref.read(todoRepositoryProvider));
   final result = await usecase(TodoParams(todo: todo));
   result.fold(
-    (failure) => throw Exception(failure.message),
+    (failure) {
+      print('Error in createTodoProvider: ${failure.message}');
+      throw Exception(failure.message);
+    },
     (success) => ref.invalidate(getTodosProvider),
   );
 });
@@ -52,3 +55,5 @@ final filteredTodosProvider = StateProvider.family<List<TodoEntity>, int?>(
     return todos.where((todo) => todo.categoryId == categoryId).toList();
   },
 );
+
+final selectedCategoryProvider = StateProvider<int?>((ref) => null);

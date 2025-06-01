@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vox_app/core/utils/loading_widget.dart';
 import 'package:vox_app/feature/presentation/pages/todo_create_page.dart';
 import 'package:vox_app/feature/presentation/providers/category_provider.dart';
 import 'package:vox_app/feature/presentation/providers/todo_providers.dart';
@@ -9,16 +10,17 @@ class TodoListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todos = ref.watch(filteredTodosProvider(null));
+    final selectedCategory = ref.watch(selectedCategoryProvider);
+    final todos = ref.watch(filteredTodosProvider(selectedCategory));
     final categories = ref.watch(getCategoriesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('To-do list')),
+      appBar: AppBar(title: const Text('ToDo List')),
       body: Column(
         children: [
           categories.when(
             data: (cats) => DropdownButton<int?>(
-              value: null,
+              value: selectedCategory,
               hint: const Text('All Categories'),
               items: [
                 const DropdownMenuItem<int?>(value: null, child: Text('All')),
@@ -28,21 +30,19 @@ class TodoListScreen extends ConsumerWidget {
                     )),
               ],
               onChanged: (value) {
-                ref.read(filteredTodosProvider(value).notifier).state = value !=
-                        null
-                    ? todos.where((todo) => todo.categoryId == value).toList()
-                    : todos;
+                ref.read(selectedCategoryProvider.notifier).state = value;
               },
             ),
             loading: () => const CircularProgressIndicator(),
             error: (e, _) => Text('Error: $e'),
           ),
           Expanded(
-            child: ref.watch(getTodosProvider).when(
-                  data: (todoList) => ListView.builder(
-                    itemCount: todoList.length,
+            child: todos.isEmpty
+                ? const Center(child: Text('No tasks available'))
+                : ListView.builder(
+                    itemCount: todos.length,
                     itemBuilder: (context, index) {
-                      final todo = todoList[index];
+                      final todo = todos[index];
                       return ListTile(
                         title: Text(todo.title),
                         subtitle: Text(todo.description),
@@ -50,10 +50,6 @@ class TodoListScreen extends ConsumerWidget {
                       );
                     },
                   ),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (e, _) => Center(child: Text('Error: $e')),
-                ),
           ),
         ],
       ),

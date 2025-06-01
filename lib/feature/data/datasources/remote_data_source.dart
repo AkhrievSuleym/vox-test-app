@@ -12,7 +12,7 @@ abstract interface class RemoteDataSource {
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   final http.Client client;
-  final String baseUrl = 'https://jsonplaceholder.typicode.com';
+  final String baseUrl = 'https://683b949828a0b0f2fdc4fa6d.mockapi.io/todos';
 
   RemoteDataSourceImpl(this.client);
 
@@ -24,8 +24,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       return jsonResponse
           .map((todo) => TodoModel.fromJson({
                 ...todo,
-                'description': 'Sample description',
-                'categoryId': (todo['id'] % 3) + 1,
+                'description': todo['description'] ?? 'There is no description',
+                'categoryId': todo['categoryId'],
               }))
           .toList();
     } else {
@@ -41,6 +41,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       body: json.encode(todo.toJson()),
     );
     if (response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse['id'] is String) {
+        jsonResponse['id'] = int.tryParse(jsonResponse['id']);
+      }
       return TodoModel.fromJson(json.decode(response.body));
     } else {
       throw ServerException('Failed to create todo');
